@@ -1,1 +1,4 @@
 similarity.pkl
+.env
+__pycache__/
+.vscode/
