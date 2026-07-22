@@ -371,11 +371,6 @@ if st.button("🎬 Get Recommendations"):
 
         with col:
 
-            st.markdown(
-                "<div class='movie-card'>",
-                unsafe_allow_html=True
-            )
-
             st.image(
                 poster,
                 use_container_width=True
@@ -386,7 +381,27 @@ if st.button("🎬 Get Recommendations"):
                 unsafe_allow_html=True
             )
 
-            st.markdown(
-                "</div>",
-                unsafe_allow_html=True
+            rec_movie_id = int(
+                movies[movies['title'] == name]
+                .iloc[0]
+                .movie_id
             )
+
+            rec_details = fetch_movie_details(rec_movie_id)
+
+            st.caption(f"⭐ {rec_details['rating']}/10")
+
+            release_year = (
+                rec_details['release_date'][:4]
+                if rec_details['release_date'] != "N/A"
+                else "N/A"
+            )
+
+            st.caption(f"📅 {release_year}")
+
+            overview = rec_details['overview']
+
+            if len(overview) > 80:
+                overview = overview[:80] + "..."
+
+            st.caption(overview)
